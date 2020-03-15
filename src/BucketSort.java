@@ -1,7 +1,6 @@
 import java.util.Arrays;
 
-class SelectionSort {
-
+public class BucketSort {
     public static void main(String[] args) {
         int[] test1 = new int[] {8,3,6,7,2,4,5};
         sort(test1);
@@ -17,24 +16,22 @@ class SelectionSort {
         System.out.println(Arrays.toString(test4));
     }
 
-
-    /**
-     * runtime: O(n^2)
-     * space: O(1)
-     *
-     * @param a
-     */
     public static void sort(int[] a) {
-        for(int i = 0; i < a.length - 1; i++) {
-            int minIndex = i;
-            for(int j = i + 1; j < a.length; j++) {
-                if(a[minIndex] > a[j]) {
-                    minIndex = j;
-                }
+        int max = (Arrays.stream(a).max().getAsInt());
+        int[] bucket = new int[max + 1];
+        for (int i = 0; i <= max; i++) {
+            bucket[i] = 0;
+        }
+
+        for (int i = 0; i < a.length; i++) {
+            bucket[a[i]]++;
+        }
+
+        for (int i = 0, j = 0; i <= max; i++) {
+            while (bucket[i] > 0) {
+                a[j++] = i;
+                bucket[i]--;
             }
-            int temp = a[i];
-            a[i] = a[minIndex];
-            a[minIndex] = temp;
         }
     }
 }
